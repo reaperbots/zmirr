@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+ #!/usr/bin/env python3
 from asyncio import (create_subprocess_exec, create_subprocess_shell,
                      run_coroutine_threadsafe, sleep)
 from asyncio.subprocess import PIPE
@@ -29,17 +29,17 @@ PAGES           = 1
 PAGE_NO         = 1
 
 class MirrorStatus:
-    STATUS_UPLOADING    = "Uploading"
-    STATUS_DOWNLOADING  = "Downloading"
-    STATUS_CLONING      = "Cloning"
+    STATUS_UPLOADING    = "📤Uploading"
+    STATUS_DOWNLOADING  = "📥Downloading"
+    STATUS_CLONING      = "♻️Cloning"
     STATUS_QUEUEDL      = "Queued Download"
     STATUS_QUEUEUP      = "Queued Upload"
-    STATUS_PAUSED       = "Paused"
-    STATUS_ARCHIVING    = "Archiving"
-    STATUS_EXTRACTING   = "Extracting"
-    STATUS_SPLITTING    = "Spliting"
+    STATUS_PAUSED       = "⏸️Paused"
+    STATUS_ARCHIVING    = "🔐Archiving"
+    STATUS_EXTRACTING   = "🔐Extracting"
+    STATUS_SPLITTING    = "✂️Spliting"
     STATUS_CHECKING     = "CheckingUp"
-    STATUS_SEEDING      = "Seeding"
+    STATUS_SEEDING      = "🐌Seeding"
 
 class setInterval:
     def __init__(self, interval, action):
@@ -115,14 +115,13 @@ def get_progress_bar_string(pct):
         pct = float(pct.strip('%'))
     p = min(max(pct, 0), 100)
     cFull = int(p // 10)
-    p_str = '█' * cFull
-    p_str += '▒' * (10 - cFull)
+    p_str = '▮' * cFull
+    p_str += '▯' * (10 - cFull)
     return f"{p_str}"
 
 
 def get_readable_message():
-    msg = ""
-    button = None
+    msg ="<b>Powered By: @Reaperzclub</b>\n\n"
     STATUS_LIMIT = config_dict['STATUS_LIMIT']
     tasks = len(download_dict)
     globals()['PAGES'] = (tasks + STATUS_LIMIT - 1) // STATUS_LIMIT
@@ -135,43 +134,43 @@ def get_readable_message():
             tag = reply_to.from_user.mention
         elapsed = time() - download.extra_details['startTime']
         if config_dict['DELETE_LINKS'] and int(config_dict['AUTO_DELETE_MESSAGE_DURATION']) > 0:
-            msg += f"\n<b>File Name</b> » <i>{escape(f'{download.name()}')}</i>\n\n" if elapsed <= config_dict['AUTO_DELETE_MESSAGE_DURATION'] else ""
+            msg += f"\n<b>📂 » {escape(f'{download.name()}')}</b>\n\n" if elapsed <= config_dict['AUTO_DELETE_MESSAGE_DURATION'] else ""
         else:
-            msg += f"\n<b>File Name</b> » <i>{escape(f'{download.name()}')}</i>\n\n"
-        msg += f"⌑ <b>{download.status()}</b>"
+            msg += f"\n<b>{escape(f'{download.name()}')}</b>\n\n"
+        msg += f"<b>{download.status()}</b>"
         if download.status() not in [MirrorStatus.STATUS_SEEDING, MirrorStatus.STATUS_PAUSED,
                                      MirrorStatus.STATUS_QUEUEDL, MirrorStatus.STATUS_QUEUEUP]:
             msg += f" » {download.speed()}"
-            msg += f"\n⌑ {get_progress_bar_string(download.progress())} » {download.progress()}"
-            msg += f"\n⌑ <code>Done   </code>: {download.processed_bytes()} of {download.size()}"
-            msg += f"\n⌑ <code>ETA    </code>: {download.eta()}"
-            msg += f"\n⌑ <code>Past   </code>: {get_readable_time(elapsed)}"
-            msg += f"\n⌑ <code>ENG    </code>: {download.engine}"
+            msg += f"\n👨🏻‍💻 <code>{get_progress_bar_string(download.progress())} » {download.progress()}</code>"
+            msg += f"\n➡ <b>Done   </b>» {download.processed_bytes()} of {download.size()}"
+            msg += f"\n⏳ <b>ETA    </b>» {download.eta()}"
+            msg += f"\n🕟 <b>Past   </b>» {get_readable_time(elapsed)}"
+            msg += f"\n🛠️ <b>ENG    </b>» {download.engine}"
             if hasattr(download, 'playList'):
                 try:
                     if playlist:=download.playList():
-                        msg += f"\n⌑ <code>YtList </code>: {playlist}"
+                        msg += f"\n▶️ <b>YtList </b>» {playlist}"
                 except:
                     pass
             if hasattr(download, 'seeders_num'):
                 try:
-                    msg += f"\n⌑ <code>S/L    </code>: {download.seeders_num()}/{download.leechers_num()}"
+                    msg += f"\n🌱 <b>S/L    </b>» {download.seeders_num()}/{download.leechers_num()}"
                 except:
                     pass
         elif download.status() == MirrorStatus.STATUS_SEEDING:
-            msg += f"\n⌑ <code>Size     </code>» {download.size()}"
-            msg += f"\n⌑ <code>Speed    </code>» {download.upload_speed()}"
-            msg += f"\n⌑ <code>Uploaded </code>» {download.uploaded_bytes()}"
-            msg += f"\n⌑ <code>Ratio    </code>» {download.ratio()}"
-            msg += f"\n⌑ <code>Time     </code>» {download.seeding_time()}"
+            msg += f"\n🤏 <b>Speed    </b>» {download.upload_speed()}"
+            msg += f"\n🚀 <b>Size     </b>» {download.size()}"
+            msg += f"\n💥 <b>Uploaded </b>» {download.uploaded_bytes()}"
+            msg += f"\n⚖ <b>Ratio    </b>» {download.ratio()}"
+            msg += f"\n🕕 <b>Time     </b>» {download.seeding_time()}"
         else:
-            msg += f"\n⌑ <code>Size   </code>: {download.size()}"
+            msg += f"\n🤏 <b>Size   </b>» {download.size()}"
         if config_dict['DELETE_LINKS']:
-            msg += f"\n⌑ <code>Task   </code>: {download.extra_details['mode']}"
+            msg += f"\n📝 <b>Task   </b>» {download.extra_details['mode']}"
         else:
-            msg += f"\n⌑ <code>Task   </code>: <a href='{download.message.link}'>{download.extra_details['mode']}</a>"
-        msg += f"\n⌑ <code>User   </code>: {tag}"
-        msg += f"\n⚠️ /{BotCommands.CancelMirror}_{download.gid()}\n\n"
+            msg += f"\n📝 <b>Task   </b>» <a href='{download.message.link}'>{download.extra_details['mode']}</a>"
+        msg += f"\n👤 <b>User   </b>» <b>{tag}</b>"
+        msg += f"\n❌<b> /{BotCommands.CancelMirror}_{download.gid()}</b>\n\n"
     if len(msg) == 0:
         return None, None
     def convert_speed_to_bytes_per_second(spd):
@@ -191,14 +190,14 @@ def get_readable_message():
             dl_speed += speed_in_bytes_per_second
         elif tstatus == MirrorStatus.STATUS_UPLOADING or tstatus == MirrorStatus.STATUS_SEEDING:
             up_speed += speed_in_bytes_per_second
-    msg += "____________________________"
-    msg += f"\n<code>FREE: </code>{get_readable_file_size(disk_usage(config_dict['DOWNLOAD_DIR']).free)}"
-    msg += f"<code> | DL: </code>{get_readable_file_size(dl_speed)}/s"
-    msg += f"\n<code>UPTM: </code>{get_readable_time(time() - botStartTime)}"
-    msg += f"<code> | UL: </code>{get_readable_file_size(up_speed)}/s"
+    msg += "<b>ꔰꔹꔹꔹꔹꔹꔹꔹꔹꔹꔹꗥꔹꔹꔹꔹꔹꔹꔹꔹꔹꔹꔰ</b>\n"
+    msg += f"\n<b>FREE: </b>{get_readable_file_size(disk_usage(config_dict['DOWNLOAD_DIR']).free)}"
+    msg += f"<b> | DL: </b>{get_readable_file_size(dl_speed)}/s"
+    msg += f"\n<b>UPTM: </b>{get_readable_time(time() - botStartTime)}"
+    msg += f"<b> | UL: </b>{get_readable_file_size(up_speed)}/s"
     if tasks <= STATUS_LIMIT:
         buttons = ButtonMaker()
-        buttons.ibutton("BOT INFO", "status stats")
+        buttons.ibutton("REAPER BOT INFO", "status stats")
         button = buttons.build_menu(1)
     if tasks > STATUS_LIMIT:
         return get_pages(msg)
@@ -207,9 +206,9 @@ def get_readable_message():
 
 def get_pages(msg):
     buttons = ButtonMaker()
-    buttons.ibutton("⫷", "status pre")
+    buttons.ibutton("◀", "status pre")
     buttons.ibutton(f"{PAGE_NO}/{PAGES}", "status stats")
-    buttons.ibutton("⫸", "status nex")
+    buttons.ibutton("▶", "status nex")
     button = buttons.build_menu(3)
     return msg, button
 
