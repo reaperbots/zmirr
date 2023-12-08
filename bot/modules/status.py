@@ -29,8 +29,8 @@ async def mirror_status(_, message):
     if count == 0:
         currentTime = get_readable_time(time() - botStartTime)
         free = get_readable_file_size(disk_usage(config_dict['DOWNLOAD_DIR']).free)
-        msg = '<b>Uninstall Telegram and enjoy your life!</b>'
-        msg += '\n\nNo Active Tasks!\n___________________________'
+        msg = '<b>Powered By : @Reaperzclub</b>'
+        msg += '\n\n<b>No Active Tasks!</b>\n\n<b>ꔰꔹꔹꔹꔹꔹꔹꔹꔹꔹꔹꗥꔹꔹꔹꔹꔹꔹꔹꔹꔹꔹꔰ</b>\n'
         msg += f"\n<b>CPU</b>: {cpu_percent()}% | <b>FREE</b>: {free}" \
                f"\n<b>RAM</b>: {virtual_memory().percent}% | <b>UPTIME</b>: {currentTime}"
         reply_message = await sendMessage(message, msg)
@@ -88,7 +88,7 @@ def bot_sys_stats():
             extr += 1
         elif status == MirrorStatus.STATUS_SEEDING:
             seed += 1
-    bmsg = f'______Zee Bot Info______\n\n'
+    bmsg = f'------Reaper Bot Info------\n\n'
     bmsg += f'C: {cpup}% | R: {ramp}% | D: {disk}%\n\n'
     bmsg += f'T : {totl} | F : {free} | Q : {inqu}\n'
     bmsg += f'DL: {dwld} | UL: {upld} | SD: {seed}\n'
