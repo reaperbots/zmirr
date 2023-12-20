@@ -146,7 +146,7 @@ def get_readable_message():
             msg += f"\n<b>├Speed :</b> {download.speed()}"
             msg += f"\n<b>├ETA   :- </b> {download.eta()}"
             msg += f"\n<b>├Past  : </b> {get_readable_time(elapsed)}"
-            msg += f"\n<b>├Engine : </b> {download.engine}"
+            msg += f"\n<b>├Eng   : </b> {download.engine}"
             if hasattr(download, 'playList'):
                 try:
                     if playlist:=download.playList():
