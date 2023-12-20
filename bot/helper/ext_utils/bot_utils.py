@@ -155,7 +155,7 @@ def get_readable_message():
                     pass
             if hasattr(download, 'seeders_num'):
                 try:
-                    msg += f"\n🌱 <b>S/L    </b>» {download.seeders_num()}/{download.leechers_num()}"
+                    msg += f"\n├<b>S/L : </b> {download.seeders_num()}/{download.leechers_num()}"
                 except:
                     pass
         elif download.status() == MirrorStatus.STATUS_SEEDING:
@@ -167,7 +167,7 @@ def get_readable_message():
         else:
             msg += f"\n🤏 <b>Size   </b>» {download.size()}"
         if config_dict['DELETE_LINKS']:
-            msg += f"\n<b>├Task :  </b> {download.extra_details['mode']}"
+            msg += f"\n<b>├Task : </b> {download.extra_details['mode']}"
         else:
             msg += f"\n<b>├Task : </b> <a href='{download.message.link}'>{download.extra_details['mode']}</a>"
         msg += f"\n<b>├User :  </b> <b>{tag}</b>"
