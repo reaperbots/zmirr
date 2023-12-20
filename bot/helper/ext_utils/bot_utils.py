@@ -1,4 +1,4 @@
- #!/usr/bin/env python3
+#!/usr/bin/env python3
 from asyncio import (create_subprocess_exec, create_subprocess_shell,
                      run_coroutine_threadsafe, sleep)
 from asyncio.subprocess import PIPE
@@ -115,8 +115,8 @@ def get_progress_bar_string(pct):
         pct = float(pct.strip('%'))
     p = min(max(pct, 0), 100)
     cFull = int(p // 10)
-    p_str = '▮' * cFull
-    p_str += '▯' * (10 - cFull)
+    p_str = '●' * cFull
+    p_str += '○' * (10 - cFull)
     return f"{p_str}"
 
 
@@ -134,18 +134,19 @@ def get_readable_message():
             tag = reply_to.from_user.mention
         elapsed = time() - download.extra_details['startTime']
         if config_dict['DELETE_LINKS'] and int(config_dict['AUTO_DELETE_MESSAGE_DURATION']) > 0:
-            msg += f"\n<b>📂 » {escape(f'{download.name()}')}</b>\n\n" if elapsed <= config_dict['AUTO_DELETE_MESSAGE_DURATION'] else ""
+            msg += f"\n📂 <code>{escape(f'{download.name()}')}</code>\n\n" if elapsed <= config_dict['AUTO_DELETE_MESSAGE_DURATION'] else ""
         else:
-            msg += f"\n<b>{escape(f'{download.name()}')}</b>\n\n"
-        msg += f"<b>{download.status()}</b>"
+            msg += f"\n<code>{escape(f'{download.name()}')}</code>\n\n"
+        msg += f"<b>┌{download.status()}</b>"
         if download.status() not in [MirrorStatus.STATUS_SEEDING, MirrorStatus.STATUS_PAUSED,
                                      MirrorStatus.STATUS_QUEUEDL, MirrorStatus.STATUS_QUEUEUP]:
-            msg += f" » {download.speed()}"
-            msg += f"\n👨🏻‍💻 <code>{get_progress_bar_string(download.progress())} » {download.progress()}</code>"
-            msg += f"\n➡ <b>Done   </b>» {download.processed_bytes()} of {download.size()}"
-            msg += f"\n⏳ <b>ETA    </b>» {download.eta()}"
-            msg += f"\n🕟 <b>Past   </b>» {get_readable_time(elapsed)}"
-            msg += f"\n🛠️ <b>ENG    </b>» {download.engine}"
+            msg += f"\n├{get_progress_bar_string(download.progress())}"
+            msg += f"\n<b>├Progress :</b> <code>{download.progress()}</code>"
+            msg += f"\n<b>├Processed :</b> {download.processed_bytes()} of {download.size()}"
+            msg += f"\n<b>├Speed :</b> {download.speed()}"
+            msg += f"\n<b>├ETA   :- </b> {download.eta()}"
+            msg += f"\n<b>├Past  : </b> {get_readable_time(elapsed)}"
+            msg += f"\n<b>├Engine : </b> {download.engine}"
             if hasattr(download, 'playList'):
                 try:
                     if playlist:=download.playList():
@@ -166,11 +167,11 @@ def get_readable_message():
         else:
             msg += f"\n🤏 <b>Size   </b>» {download.size()}"
         if config_dict['DELETE_LINKS']:
-            msg += f"\n📝 <b>Task   </b>» {download.extra_details['mode']}"
+            msg += f"\n<b>├Task :  </b> {download.extra_details['mode']}"
         else:
-            msg += f"\n📝 <b>Task   </b>» <a href='{download.message.link}'>{download.extra_details['mode']}</a>"
-        msg += f"\n👤 <b>User   </b>» <b>{tag}</b>"
-        msg += f"\n❌<b> /{BotCommands.CancelMirror}_{download.gid()}</b>\n\n"
+            msg += f"\n<b>├Task : </b> <a href='{download.message.link}'>{download.extra_details['mode']}</a>"
+        msg += f"\n<b>├User :  </b> <b>{tag}</b>"
+        msg += f"\n└❌<b> /{BotCommands.CancelMirror}_{download.gid()}</b>\n\n"
     if len(msg) == 0:
         return None, None
     def convert_speed_to_bytes_per_second(spd):
@@ -190,7 +191,6 @@ def get_readable_message():
             dl_speed += speed_in_bytes_per_second
         elif tstatus == MirrorStatus.STATUS_UPLOADING or tstatus == MirrorStatus.STATUS_SEEDING:
             up_speed += speed_in_bytes_per_second
-    msg += "<b>ꔰꔹꔹꔹꔹꔹꔹꔹꔹꔹꔹꗥꔹꔹꔹꔹꔹꔹꔹꔹꔹꔹꔰ</b>\n"
     msg += f"\n<b>FREE: </b>{get_readable_file_size(disk_usage(config_dict['DOWNLOAD_DIR']).free)}"
     msg += f"<b> | DL: </b>{get_readable_file_size(dl_speed)}/s"
     msg += f"\n<b>UPTM: </b>{get_readable_time(time() - botStartTime)}"
