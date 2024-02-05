@@ -121,7 +121,7 @@ def get_progress_bar_string(pct):
 
 
 def get_readable_message():
-    msg ="<b>Powered By: @Reaperzclub</b>\n\n"
+    msg =""
     STATUS_LIMIT = config_dict['STATUS_LIMIT']
     tasks = len(download_dict)
     globals()['PAGES'] = (tasks + STATUS_LIMIT - 1) // STATUS_LIMIT
