@@ -76,7 +76,7 @@ def direct_link_generator(link):
     elif any(x in domain for x in ['wetransfer.com', 'we.tl']):
         return wetransfer(link)
     elif any(x in domain for x in ['terabox.com', 'nephobox.com', '4funbox.com', 'mirrobox.com', 'momerybox.com',
-                                   'teraboxapp.com', '1024tera.com', 'terabox.app']):
+                                   'teraboxapp.com', '1024tera.com', 'terabox.app', 'gibibox.com', 'goaibox.com']):
         return terabox(link)
     elif any(x in domain for x in ['cabecabean.lol', 'embedwish.com', 'filelions.co', 'filelions.live',
                                    'filelions.to', 'filelions.online', 'filelions.site', 'kitabmarkaz.xyz',
