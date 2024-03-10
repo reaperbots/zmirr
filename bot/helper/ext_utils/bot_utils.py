@@ -29,8 +29,8 @@ PAGES           = 1
 PAGE_NO         = 1
 
 class MirrorStatus:
-    STATUS_UPLOADING    = "📤Uploading"
-    STATUS_DOWNLOADING  = "📥Downloading"
+    STATUS_UPLOADING    = "Uploading"
+    STATUS_DOWNLOADING  = "Downloading"
     STATUS_CLONING      = "♻️Cloning"
     STATUS_QUEUEDL      = "Queued Download"
     STATUS_QUEUEUP      = "Queued Upload"
