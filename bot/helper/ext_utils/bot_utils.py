@@ -134,7 +134,7 @@ def get_readable_message():
             tag = reply_to.from_user.mention
         elapsed = time() - download.extra_details['startTime']
         if config_dict['DELETE_LINKS'] and int(config_dict['AUTO_DELETE_MESSAGE_DURATION']) > 0:
-            msg += f"\n📂 <code>{escape(f'{download.name()}')}</code>\n\n" if elapsed <= config_dict['AUTO_DELETE_MESSAGE_DURATION'] else ""
+            msg += f"\n📂 <q>{escape(f'{download.name()}')}</q>\n\n" if elapsed <= config_dict['AUTO_DELETE_MESSAGE_DURATION'] else ""
         else:
             msg += f"\n<code>{escape(f'{download.name()}')}</code>\n\n"
         msg += f"<b>┌{download.status()}</b>"
@@ -154,7 +154,7 @@ def get_readable_message():
                     pass
             if hasattr(download, 'seeders_num'):
                 try:
-                    msg += f"\n├<b>S/L              : </b> {download.seeders_num()}/{download.leechers_num()}"
+                    msg += f"\n├<b>S/L               : </b> {download.seeders_num()}/{download.leechers_num()}"
                 except:
                     pass
         elif download.status() == MirrorStatus.STATUS_SEEDING:
