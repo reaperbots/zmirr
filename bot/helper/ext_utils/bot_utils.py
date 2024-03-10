@@ -142,10 +142,10 @@ def get_readable_message():
                                      MirrorStatus.STATUS_QUEUEDL, MirrorStatus.STATUS_QUEUEUP]:
             msg += f"\n├{get_progress_bar_string(download.progress())}"
             msg += f"\n<b>├Processed :</b> {download.processed_bytes()} of {download.size()}"
-            msg += f"\n<b>├Speed        :</b> {download.speed()}"
-            msg += f"\n<b>├ETA           :</b> {download.eta()}"
-            msg += f"\n<b>├Past          :</b> {get_readable_time(elapsed)}"
-            msg += f"\n<b>├Eng           :</b> {download.engine}"
+            msg += f"\n<b>├Speed          :</b> {download.speed()}"
+            msg += f"\n<b>├ETA              :</b> {download.eta()}"
+            msg += f"\n<b>├Past             :</b> {get_readable_time(elapsed)}"
+            msg += f"\n<b>├Eng              :</b> {download.engine}"
             if hasattr(download, 'playList'):
                 try:
                     if playlist:=download.playList():
@@ -154,7 +154,7 @@ def get_readable_message():
                     pass
             if hasattr(download, 'seeders_num'):
                 try:
-                    msg += f"\n├<b>S/L           : </b> {download.seeders_num()}/{download.leechers_num()}"
+                    msg += f"\n├<b>S/L              : </b> {download.seeders_num()}/{download.leechers_num()}"
                 except:
                     pass
         elif download.status() == MirrorStatus.STATUS_SEEDING:
@@ -166,10 +166,10 @@ def get_readable_message():
         else:
             msg += f"\n🤏 <b>Size   </b>» {download.size()}"
         if config_dict['DELETE_LINKS']:
-            msg += f"\n<b>├Task          : </b> {download.extra_details['mode']}"
+            msg += f"\n<b>├Task            : </b> {download.extra_details['mode']}"
         else:
-            msg += f"\n<b>├Task          : </b> <a href='{download.message.link}'>{download.extra_details['mode']}</a>"
-        msg += f"\n<b>├User            : {tag}</b>"
+            msg += f"\n<b>├Task            : </b> <a href='{download.message.link}'>{download.extra_details['mode']}</a>"
+        msg += f"\n<b>├User             : {tag}</b>"
         msg += f"\n└❌<b> /{BotCommands.CancelMirror}_{download.gid()}</b>\n\n"
     if len(msg) == 0:
         return None, None
