@@ -119,7 +119,7 @@ def get_progress_bar_string(pct):
     p_str += '▱' * (10 - cFull)
     return f"{p_str}"
 
-
+<div style="border:1px solid dotted;">
 def get_readable_message():
     msg =""
     STATUS_LIMIT = config_dict['STATUS_LIMIT']
@@ -206,7 +206,7 @@ def get_pages(msg):
     buttons.ibutton("⏭️", "status nex")
     button = buttons.build_menu(3)
     return msg, button
-
+</div>
 
 async def turn_page(data):
     try:
