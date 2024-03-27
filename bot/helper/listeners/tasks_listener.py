@@ -403,7 +403,7 @@ class MirrorLeechListener:
         LOGGER.info(f'Done Uploading {name}')
         lmsg = f'<b><i>{escape(name)}</i></b>'
         lmsg += f'\n<b>cc</b>: <i>{self.tag}</i>'
-        gmsg = f'Hey <b>{self.tag}</b>!\n\n<b>{escape(name)}</b>\n'
+        gmsg = f'Hey <b>{self.tag} your task completed</b>!\n\n<b>{escape(name)}</b>\n'
         msg = f'\n<code>Size            </code>: {get_readable_file_size(size)}'
         msg += f"\n<code>Elapsed         </code>: {get_readable_time(time() - self.extra_details['startTime'])}"
         msg += f"\n<code>Upload          </code>: {self.extra_details['mode']}"
