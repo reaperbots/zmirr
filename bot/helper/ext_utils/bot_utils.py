@@ -115,8 +115,8 @@ def get_progress_bar_string(pct):
         pct = float(pct.strip('%'))
     p = min(max(pct, 0), 100)
     cFull = int(p // 10)
-    p_str = '▰' * cFull
-    p_str += '▱' * (10 - cFull)
+    p_str = '▣' * cFull
+    p_str += '▢' * (10 - cFull)
     return f"{p_str}"
 
 
@@ -143,8 +143,7 @@ def get_readable_message():
                                      MirrorStatus.STATUS_QUEUEDL, MirrorStatus.STATUS_QUEUEUP]:
             msg += f"\n├{get_progress_bar_string(download.progress())}"
             msg += f"\n<b>├Processed  :</b> {download.processed_bytes()} of {download.size()}"
-            msg += f"\n<b>├ETA               :</b> {download.eta()}"
-            msg += f"\n<b>├Past              :</b> {get_readable_time(elapsed)}"
+            msg += f"\n<b>├ETA               :</b> {download.eta()} <b>| Past:</b> {get_readable_time(elapsed)}"
             msg += f"\n<b>├Eng               :</b> {download.engine}"
             if hasattr(download, 'playList'):
                 try:
@@ -170,7 +169,7 @@ def get_readable_message():
         else:
             msg += f"\n<b>├Task             : </b> <a href='{download.message.link}'>{download.extra_details['mode']}</a>"
         msg += f"\n<b>├User             : {tag}</b>"
-        msg += f"\n└❌<b> /{BotCommands.CancelMirror}_{download.gid()}</b>\n\n"
+        msg += f"\n└<b> /{BotCommands.CancelMirror}_{download.gid()}</b>\n\n"
     if len(msg) == 0:
         return None, None
     def convert_speed_to_bytes_per_second(spd):
@@ -190,7 +189,7 @@ def get_readable_message():
             dl_speed += speed_in_bytes_per_second
         elif tstatus == MirrorStatus.STATUS_UPLOADING or tstatus == MirrorStatus.STATUS_SEEDING:
             up_speed += speed_in_bytes_per_second
-    msg += f"<b>UPTM: {get_readable_time(time() - botStartTime)} | FREE: {get_readable_file_size(disk_usage(config_dict['DOWNLOAD_DIR']).free)} | DL: {get_readable_file_size(dl_speed)} | UL: {get_readable_file_size(up_speed)}</b>"
+    msg += f"<b>UPTM: {get_readable_time(time() - botStartTime)} | FREE: {get_readable_file_size(disk_usage(config_dict['DOWNLOAD_DIR']).free)}"
     if tasks <= STATUS_LIMIT:
         buttons = ButtonMaker()
         buttons.ibutton("REAPER BOT INFO", "status stats")
